@@ -20,5 +20,5 @@
                                    [lein-environ "1.1.0"]]
                     :env {:db "h2:tcp://localhost/~/test_db;USER=sa"}}
 
-             :test {:env {:db "h2:mem:test_db"}}}
+             :test {:env {:db "h2:mem:test_db;DB_CLOSE_DELAY=-1"}}}
   :aliases {"midje" ["with-profile" "+test" "midje"]})

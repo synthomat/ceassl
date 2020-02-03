@@ -21,13 +21,23 @@
 (def delete! (partial j/delete! db-uri))
 (def insert! (partial j/insert! db-uri))
 (def update! (partial j/update! db-uri))
+(def by-id (partial j/get-by-id db-uri))
 
-(def generate-id #(java.util.UUID/randomUUID))
+
+(def generate-id #(str (java.util.UUID/randomUUID)))
 
 (defn create-target
   [host]
-  (insert! :targets {:id (generate-id)
-                     :host host}))
+  (let [id (generate-id)
+        target {:id   id
+                :host host}]
+    (when (insert! :targets target)
+      target)))
+
+(defn get-target-by-id
+  [target-id]
+  (let [target (by-id :targets  target-id)]
+    target))
 
 (defn list-targets
   "docstring"
