@@ -1,9 +1,13 @@
 (ns ceassl.handler-test
   (:use midje.sweet)
   (:require [ring.mock.request :as mock]
-            [ceassl.handler :refer :all]))
+            [ceassl.handler :refer :all]
+            [ceassl.db :refer :all]
+            [environ.core :refer [env]]))
 
-(facts "test-app"
+
+#_(facts "test-app"
+
        (fact "main route"
              (let [response (app (mock/request :get "/"))]
                (:status response) => 200
