@@ -7,7 +7,6 @@
   {:connection-uri (str "jdbc:" (env :db))})
 
 (def migratus-config {:store                :database
-                      :migration-dir        "migrations/"
                       :init-script          "init.sql"      ;script should be located in the :migration-dir path
                       :init-in-transaction? true
                       :db                   db-uri})
@@ -21,12 +20,11 @@
 (def delete! (partial j/delete! db-uri))
 (def insert! (partial j/insert! db-uri))
 (def update! (partial j/update! db-uri))
-(def by-id (partial j/get-by-id db-uri))
-
+(def get-by-id (partial j/get-by-id db-uri))
 
 (def generate-id #(str (java.util.UUID/randomUUID)))
 
-(defn create-target
+(defn create-target!
   [host]
   (let [id (generate-id)
         target {:id   id
@@ -36,10 +34,20 @@
 
 (defn get-target-by-id
   [target-id]
-  (let [target (by-id :targets  target-id)]
-    target))
+  (get-by-id :targets target-id))
+
+(defn delete-all-targets!
+  "Delete all targets from the database"
+  []
+  (execute! "truncate table targets"))
+
+(defn delete-target-by-id!
+  "docstring"
+  [target-id]
+  (delete! :targets ["id = ?" target-id]))
 
 (defn list-targets
   "docstring"
   []
   (query ["SELECT * FROM targets"]))
+

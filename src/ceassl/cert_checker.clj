@@ -15,11 +15,11 @@
 (defn get-cert-info
   [url]
   (let [certs (fetch-certs-from-url url)
-        cert  ^X509Certificate (first certs)]
-    {:not-after  (.getNotAfter cert)
-     :not-before (.getNotBefore cert)
-     :principal  (-> cert .getIssuerX500Principal .getName)
-     :subject  (-> cert .getSubjectX500Principal .getName)
+        cert ^X509Certificate (first certs)]
+    {:not-after         (.getNotAfter cert)
+     :not-before        (.getNotBefore cert)
+     :principal         (-> cert .getIssuerX500Principal .getName)
+     :subject           (-> cert .getSubjectX500Principal .getName)
      :alternative-names (->> cert .getSubjectAlternativeNames (map second))}))
 
 
@@ -33,12 +33,12 @@
    "https://clojure.org"
    "https://slack.com"])
 
+
 (defn -main
   "docstring"
   []
   (let [ress (map #(future [% (get-cert-info %)]) hosts)]
     (doseq [res ress]
-      (println @res )))
+      (println @res)))
 
-  (shutdown-agents)
-  )
+  (shutdown-agents))
