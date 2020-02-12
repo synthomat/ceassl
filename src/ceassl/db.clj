@@ -6,6 +6,8 @@
 (def db-uri
   {:connection-uri (str "jdbc:" (env :db))})
 
+(println "connecting to " db-uri)
+
 (def migratus-config {:store                :database
                       :init-script          "init.sql"      ;script should be located in the :migration-dir path
                       :init-in-transaction? true
@@ -13,7 +15,6 @@
 
 (migratus/migrate migratus-config)
 (migratus/init migratus-config)
-
 
 (def execute! (partial j/execute! db-uri))
 (def query (partial j/query db-uri))
@@ -47,7 +48,7 @@
   (delete! :targets ["id = ?" target-id]))
 
 (defn list-targets
-  "docstring"
+  "Fetches a list of target"
   []
-  (query ["SELECT * FROM targets"]))
+  (query ["SELECT * FROM targets ORDER BY host ASC"]))
 

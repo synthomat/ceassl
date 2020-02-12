@@ -1,0 +1,10 @@
+header.navbar {
+    padding: 8px;
+}
+
+.navbar .navbar-brand {
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    font-weight: 200;
+    margin-top: -16px;
+}

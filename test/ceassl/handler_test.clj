@@ -22,7 +22,6 @@
             target (get-target-by-id target-id)]
         target => falsey))
 
-
 (facts "list targets"
        (fact "after creating targets list-targets should return a non-empty list"
              (create-target! "example.com") => truthy
