@@ -2,7 +2,8 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [ceassl.routes :as r]))
+            [ceassl.routes :as r]
+            [ceassl.monitor :as m]))
 
 
 (defroutes app-routes
@@ -14,3 +15,5 @@
 (def app
   (-> app-routes
       (wrap-defaults site-defaults)))
+
+(m/start-monitor)
