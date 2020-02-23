@@ -47,12 +47,12 @@
 
   (let [row (fn [n] [:tr
                      [:td (:host n)]
-                     [:td (:created_at n)]
+                     [:td (:valid_until n)]
                      [:td (:last_check n)]
                      [:td [:a {:href "#" :onclick (str "return deleteTarget('" (:id n) "')") :class "text-error"} [:i.icon.icon-delete]]]])
         target-list [:table.table [:thread [:tr
                                             [:th "Host"]
-                                            [:th "Created At"]
+                                            [:th "Valid until"]
                                             [:th "Last checked"]
                                             [:th "Action"]]] [:tbody (map row targets)]]]
     (layout

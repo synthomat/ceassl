@@ -50,5 +50,5 @@
 (defn list-targets
   "Fetches a list of target"
   []
-  (query ["SELECT * FROM targets ORDER BY host ASC"]))
+  (query ["SELECT * FROM targets ORDER BY valid_until ASC, host ASC"]))
 
