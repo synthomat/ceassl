@@ -31,34 +31,26 @@
        content]]]))
 
 
-(defn hosts-table
-  "docstring"
-  [hosts])
-
-(defn create-form
-  "docstring"
-  []
-  [:div
-   [:button#create-btn.btn.btn-primary "Create"]])
-
 (defn dashboard
   "docstring"
   [targets]
 
   (let [row (fn [n] [:tr
-                     [:td (:host n)]
+                     [:td (:host n) ]
                      [:td (:valid_until n)]
-                     [:td (:last_check n)]
+                     [:td [:div.bar {:style "width: 100px"}
+                           [:div.bar-item {:style "width:25%;"}]]
+                      ]
                      [:td [:a {:href "#" :onclick (str "return deleteTarget('" (:id n) "')") :class "text-error"} [:i.icon.icon-delete]]]])
         target-list [:table.table [:thread [:tr
                                             [:th "Host"]
                                             [:th "Valid until"]
-                                            [:th "Last checked"]
+                                            [:th "Validity"]
                                             [:th "Action"]]] [:tbody (map row targets)]]]
     (layout
       [:div
-       target-list
 
+       target-list
        [:div.modal
         [:a.modal-overlay {:href "#close" :aria-label "Close"}]
         [:div.modal-container

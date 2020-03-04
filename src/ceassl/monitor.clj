@@ -18,3 +18,24 @@
             (update! :targets updated-target ["id = ?" (:id target)])))
         (catch Exception e
           (println e))))))
+
+
+(def running (atom true))
+
+(defn start-monitor
+  ([] (start-monitor 1))
+  ([sleep-minutes]
+   (log/debug (str "Starting Monitor with " sleep-minutes "min interval"))
+   (reset! running true)
+   (future (loop []
+             (check-all-targets)
+
+             (Thread/sleep (* sleep-minutes 60 1000))
+             (if @running
+               (recur)
+               (log/debug "Monitor stopped"))))))
+
+(defn stop-monitor
+  []
+  (log/debug "Stopping Monitor")
+  (reset! running false))

@@ -9,8 +9,8 @@
   [url-str]
   (let [url ^URL (io/as-url url-str)
         conn ^HttpsURLConnection (.openConnection url)]
-    (with-open [_ (.getInputStream conn)]
-      (.getServerCertificates conn))))
+    (.connect conn)
+    (.getServerCertificates conn)))
 
 (defn extract-cert-info
   [^X509Certificate cert ]

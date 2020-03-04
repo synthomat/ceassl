@@ -11,7 +11,8 @@
                  [environ "1.1.0"]
                  [hiccup "1.0.5"]
                  [org.clojure/tools.logging "0.6.0"]
-                 [ch.qos.logback/logback-classic "1.3.0-alpha5"]]
+                 [ch.qos.logback/logback-classic "1.3.0-alpha5"]
+                 [clojure.java-time "0.3.2"]]
 
   :jvm-opts ["-Dclojure.tools.logging.factory=clojure.tools.logging.impl/slf4j-factory"]
   :plugins [[lein-ring "0.12.5"]]
@@ -24,6 +25,6 @@
                                    [midje "1.9.9"]]
                     :plugins      [[lein-midje "3.2.1"]
                                    [lein-environ "1.1.0"]]
-                    :env {:db "h2:tcp://localhost/~/test_db;USER=sa"}}
+                    :env {:db "h2:tcp://localhost/~/test_db;USER=sa;PASSWORD=sa"}}
              :test {:env {:db "h2:mem:test_db;DB_CLOSE_DELAY=-1"}}}
   :aliases {"midje" ["with-profile" "+test" "midje"]})
