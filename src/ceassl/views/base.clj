@@ -38,8 +38,10 @@
   (let [row (fn [n] [:tr
                      [:td (:host n) ]
                      [:td (:valid_until n)]
-                     [:td [:div.bar {:style "width: 100px"}
-                           [:div.bar-item {:style "width:25%;"}]]
+                     [:td
+                      (when-let [perc (:validity_percent n)]
+                        [:div.bar {:style "width: 100px"}
+                         [:div.bar-item {:style (str "width:" perc "%;")}]])
                       ]
                      [:td [:a {:href "#" :onclick (str "return deleteTarget('" (:id n) "')") :class "text-error"} [:i.icon.icon-delete]]]])
         target-list [:table.table [:thread [:tr

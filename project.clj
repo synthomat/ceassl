@@ -22,9 +22,10 @@
   :profiles {:dev  {:dependencies [[javax.servlet/servlet-api "2.5"]
                                    [ring/ring-mock "0.3.2"]
                                    [ring/ring-devel "1.8.0"]
-                                   [midje "1.9.9"]]
+                                   [midje "1.9.9"]
+                                   [ring/ring-jetty-adapter "1.6.3"]]
                     :plugins      [[lein-midje "3.2.1"]
                                    [lein-environ "1.1.0"]]
-                    :env {:db "h2:tcp://localhost/~/test_db;USER=sa;PASSWORD=sa"}}
+                    :env {:db "h2:tcp://localhost/~/test_db;USER=sa;"}}
              :test {:env {:db "h2:mem:test_db;DB_CLOSE_DELAY=-1"}}}
   :aliases {"midje" ["with-profile" "+test" "midje"]})

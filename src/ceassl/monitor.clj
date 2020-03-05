@@ -13,8 +13,10 @@
       (log/debug "checking " url)
       (try
         (when-let [cert-info (get-cert-info url)]
-          (let [updated-target (merge target {:valid_until (:not-after cert-info)
-                                              :last_check  (Instant/now)})]
+          (let [updated-target (-> (merge target {:valid_until (:not-after cert-info)
+                                                  :valid_after (:not-before cert-info)
+                                                  :last_check  (Instant/now)})
+                                   (dissoc :validity_percent))]
             (update! :targets updated-target ["id = ?" (:id target)])))
         (catch Exception e
           (println e))))))

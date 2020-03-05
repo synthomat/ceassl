@@ -5,6 +5,7 @@ create table targets
     created_at  TIMESTAMP(0) WITH TIME ZONE default now() not null,
     updated_at  TIMESTAMP(0) WITH TIME ZONE default now(),
     last_check  TIMESTAMP(0) WITH TIME ZONE,
+    valid_after TIMESTAMP(0) WITH TIME ZONE,
     valid_until TIMESTAMP(0) WITH TIME ZONE,
 
     constraint targets_pk

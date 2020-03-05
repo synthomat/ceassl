@@ -76,8 +76,18 @@
   [target-id]
   (delete! :targets ["id = ?" target-id]))
 
+(defn calculate-percentage
+  [target]
+
+  (try
+    (Math/round (* 100 (float (/ (- (.toEpochSecond (OffsetDateTime/now)) (.toEpochSecond (:valid_after target)))
+                                 (- (.toEpochSecond (:valid_until target)) (.toEpochSecond (:valid_after target)))))))
+    (catch Exception e nil)))
+
+
 (defn list-targets
   "Fetches a list of target"
   []
-  (query ["SELECT * FROM targets ORDER BY valid_until ASC, host ASC"]))
+  (query ["SELECT * FROM targets ORDER BY valid_until ASC, host ASC"]
+         {:row-fn #(assoc % :validity_percent (calculate-percentage %))}))
 
