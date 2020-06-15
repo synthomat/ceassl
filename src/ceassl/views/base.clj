@@ -1,11 +1,12 @@
 (ns ceassl.views.base
   (:require [hiccup.core :refer [html]]
-            [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]))
+            [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
+            [ceassl.monitor :as m]))
 (use 'ring.util.anti-forgery)
 
 (defn layout
   "docstring"
-  [content]
+  [& contents]
   (html
     [:html
      [:head
@@ -28,7 +29,12 @@
           [:input.form-input {:name "target-host" :type "text" :placeholder "example.com"}]
           [:button.btn.btn-primary.input-group-btn "Create"]]]]]
       [:div.container
-       content]]]))
+       contents]
+      [:div.footer {:style "margin-top: 80px"}
+       [:div.container
+        [:div.columns
+         [:div.column.col-12.col-mr-auto.text-center.text-secondary
+          [:p "Ceassl © 2020 | contribute @ " [:a.text-gray {:href "https://github.com/synthomat/ceassl"} "Github"]]]]]]]]))
 
 
 (defn dashboard
@@ -50,20 +56,7 @@
                                             [:th "Validity"]
                                             [:th "Action"]]] [:tbody (map row targets)]]]
     (layout
+      [:div [:strong "last check: "] @m/last-check]
       [:div
-
        target-list
-       [:div.modal
-        [:a.modal-overlay {:href "#close" :aria-label "Close"}]
-        [:div.modal-container
-         [:div.modal-header
-          [:a.btn.btn-clear.float-right {:href "#close" :aria-label "Close"}]
-          [:div.modal-title.h5 "New Host"]]
-         [:div.modal-body
-          [:div.content
-           "Create a new host for tracking certificates"
-           [:div.form-group
-            [:label.form-label {:for "input-example-1"} "Host Name"]
-            [:input#input-example-1.form-input {:type "text" :placeholder "e.g. example.com"}]]]]
-         [:div.modal-footer
-          [:button.btn.btn-primary.ok "Create Host"]]]]])))
+       ])))
