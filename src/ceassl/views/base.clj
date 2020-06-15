@@ -27,7 +27,7 @@
          (anti-forgery-field)
          [:div.input-group.input-inline
           [:input.form-input {:name "target-host" :type "text" :placeholder "example.com"}]
-          [:button.btn.btn-primary.input-group-btn "Create"]]]]]
+          [:button.btn.btn-primary.input-group-btn "Add"]]]]]
       [:div.container
        contents]
       [:div.footer {:style "margin-top: 80px"}
@@ -42,7 +42,7 @@
   [targets]
 
   (let [row (fn [n] [:tr
-                     [:td (:host n) ]
+                     [:td [:a {:href (str "https://" (:host n)) :target "_blank"} (:host n)]]
                      [:td (:valid_until n)]
                      [:td
                       (when-let [perc (:validity_percent n)]
