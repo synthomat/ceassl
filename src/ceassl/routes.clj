@@ -1,5 +1,5 @@
 (ns ceassl.routes
-  (:require [ceassl.views.base :as b]
+  (:require [ceassl.views.base :as view]
             [ceassl.db :as db]
             [ring.util.response :refer [redirect]]
             [ceassl.monitor :as m]))
@@ -9,7 +9,7 @@
   "docstring"
   [req]
   (let [targets (db/list-targets)]
-    (b/dashboard targets)))
+    (view/dashboard targets)))
 
 
 (defn create-target

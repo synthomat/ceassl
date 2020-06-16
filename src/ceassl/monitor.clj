@@ -30,26 +30,26 @@
   (reset! last-check (Instant/now)))
 
 
-(def running (atom true))
+(def is-running (atom true))
 
 (defn stop-monitor
   []
   (log/debug "Stopping Monitor")
-  (reset! running false))
+  (reset! is-running false))
 
 (defn start-monitor
   ([] (start-monitor 60))
   ([sleep-minutes]
-   (when @running
+   (when @is-running
      (log/debug "Stopping old monitor…")
      (stop-monitor))
 
    (log/debug (str "Starting Monitor with " sleep-minutes "min interval"))
-   (reset! running true)
+   (reset! is-running true)
    (future (loop []
              (check-all-targets)
 
              (Thread/sleep (* sleep-minutes 60 1000))
-             (if @running
+             (if @is-running
                (recur)
                (log/debug "Monitor stopped"))))))

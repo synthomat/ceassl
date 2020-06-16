@@ -3,7 +3,8 @@
             [migratus.core :as migratus]
             [environ.core :refer [env]]
             [clojure.tools.logging :as log])
-  (:import [java.time LocalDate LocalTime OffsetDateTime ZoneOffset]))
+  (:import [java.time LocalDate LocalTime OffsetDateTime ZoneOffset]
+           (java.util UUID)))
 
 
 (def db-uri
@@ -26,7 +27,7 @@
 (def update! (partial j/update! db-uri))
 (def get-by-id (partial j/get-by-id db-uri))
 
-(def generate-id #(str (java.util.UUID/randomUUID)))
+(def generate-id #(str (UUID/randomUUID)))
 
 (defn- h2-timestamp-with-time-zone->offset-date-time
   "Convert a h2 `TimestampWithTimeZone` to a `java.time.OffsetDateTime`.

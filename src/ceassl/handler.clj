@@ -8,8 +8,9 @@
 
 (defroutes app-routes
            (GET "/" [] r/dashboard)
-           (POST "/targets/create" [] r/create-target)
-           (DELETE "/targets/:id" [id] (r/delete-target id))
+           (context "/targets" []
+             (POST "/create" [] r/create-target)
+             (DELETE "/:id" [id] (r/delete-target id)))
            (route/not-found "Not Found"))
 
 (def app
