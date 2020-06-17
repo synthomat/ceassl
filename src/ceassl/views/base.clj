@@ -44,8 +44,7 @@
         [:a.navbar-brand.mr-2 {:href "/"} "Ceassl"]]
        [:section.navbar-section
         (add-target-form)]
-       ;[:a {:href "/settings"} "Settings"]
-       ]
+       [:a {:href "/settings"} "Settings"]]
       [:div.container
        contents]
       (footer)]]))
@@ -85,3 +84,21 @@
     [:div [:strong "last check: "] @m/last-check]
     [:div
      (targets-table targets)]))
+
+(defn settings
+  "docstring"
+  [sub]
+  (layout
+    [:div [:h1 "Settings"]]
+    [:div.container
+     [:div.columns
+      [:div.column.col-2
+       [:ul.menu
+        [:li.menu-item
+         [:a {:href "/settings/general" :class (when (= sub "general") "active")} "General"]]
+        [:li.menu-item
+         [:a {:href "/settings/notifications" :class (when (= sub "notifications") "active")} "Notifications"]]]]
+      [:div.column.col-10
+       (case sub
+         "general" "GENERAL"
+         "notifications" "NOT")]]]))

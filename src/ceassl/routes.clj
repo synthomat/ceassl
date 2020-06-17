@@ -11,6 +11,10 @@
   (let [targets (db/list-targets)]
     (view/dashboard targets)))
 
+(defn settings
+  "docstring"
+  [sub]
+  (view/settings sub))
 
 (defn create-target
   "docstring"
