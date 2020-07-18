@@ -1,7 +1,8 @@
 (ns ceassl.views.base
   (:require [hiccup.core :refer [html]]
             [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
-            [ceassl.monitor :as m]))
+            [ceassl.monitor :as m]
+            [java-time :as t]))
 (use 'ring.util.anti-forgery)
 
 (defn footer
@@ -36,19 +37,18 @@
   "docstring"
   [& contents]
   (html
-    [:html
-     (html-head)
-     [:body
-      [:header.navbar
-       [:section.navbar-section
-        [:a.navbar-brand.mr-2 {:href "/"} "Ceassl"]]
-       [:section.navbar-section
-        (add-target-form)]
-       ;[:a {:href "/settings"} "Settings"]
-       ]
-      [:div.container
-       contents]
-      (footer)]]))
+    (html-head)
+    [:body
+     [:header.navbar
+      [:section.navbar-section
+       [:a.navbar-brand.mr-2 {:href "/"} "Ceassl"]]
+      [:section.navbar-section
+       (add-target-form)]
+      ;[:a {:href "/settings"} "Settings"]
+      ]
+     [:div.container
+      contents]
+     (footer)]))
 
 
 (defn target-row
@@ -56,13 +56,9 @@
   [target]
   [:tr
    [:td [:a {:href (str "https://" (:host target)) :target "_blank"} (:host target)]]
-   [:td (:valid_until target)]
+   [:td [:span {:title (str "expires on " (:valid_until target))} (when-let [ein (:valid_until target)] (t/time-between (t/local-date) ein :days)) " days"]]
    [:td
-    (when-let [perc (:validity_percent target)]
-      [:div.bar {:style "width: 100px"}
-       [:div.bar-item {:style (str "width:" perc "%;")}]])]
-   [:td
-    [:a {:href "#" :onclick (str "return deleteTarget('" (:id target) "')") :class "text-error"}
+    [:a {:href "#" :onclick (format "return deleteTarget('%s')" (:id target)) :class "text-error"}
      [:i.icon.icon-delete]]]])
 
 (defn targets-table
@@ -72,8 +68,7 @@
    [:thead
     [:tr
      [:th "Host"]
-     [:th "Valid until"]
-     [:th "Validity"]
+     [:th "Expires in"]
      [:th "Action"]]]
    [:tbody
     (map target-row targets)]])
