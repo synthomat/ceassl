@@ -8,7 +8,7 @@
 
 
 (def db-uri
-  {:connection-uri (str "jdbc:" (env :db))})
+  {:connection-uri (str "jdbc:" (or (env :db) "h2:./ceassl"))})
 
 (log/info "Connecting to database " db-uri)
 

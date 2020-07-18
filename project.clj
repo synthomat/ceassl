@@ -1,4 +1,4 @@
-(defproject ceassl "0.1"
+(defproject ceassl "0.2"
   :description "SSL/TLS Certificate Expiration Monitoring"
   :url "https://github.com/synthomat/ceassl"
   :min-lein-version "2.0.0"
@@ -26,6 +26,6 @@
                                    [ring/ring-jetty-adapter "1.6.3"]]
                     :plugins      [[lein-midje "3.2.1"]
                                    [lein-environ "1.1.0"]]
-                    :env {:db "h2:tcp://localhost/~/test_db;USER=sa"}}
+                    :env {:db "h2:./ceassl"}}
              :test {:env {:db "h2:mem:test_db;DB_CLOSE_DELAY=-1"}}}
   :aliases {"midje" ["with-profile" "+test" "midje"]})
