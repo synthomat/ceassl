@@ -10,6 +10,8 @@
                  [com.h2database/h2 "1.4.200"]
                  [environ "1.1.0"]
                  [hiccup "1.0.5"]
+                 [cheshire "5.10.0"]
+                 [ring/ring-json "0.5.0"]
                  [org.clojure/tools.logging "0.6.0"]
                  [ch.qos.logback/logback-classic "1.3.0-alpha5"]
                  [clojure.java-time "0.3.2"]]
@@ -26,6 +28,6 @@
                                    [ring/ring-jetty-adapter "1.6.3"]]
                     :plugins      [[lein-midje "3.2.1"]
                                    [lein-environ "1.1.0"]]
-                    :env {:db "h2:./ceassl"}}
+                    :env {:db "h2:tcp://localhost/./ceassl;USER=sa;PASSWORD=sa"}}
              :test {:env {:db "h2:mem:test_db;DB_CLOSE_DELAY=-1"}}}
   :aliases {"midje" ["with-profile" "+test" "midje"]})

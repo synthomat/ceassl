@@ -13,7 +13,7 @@
     (.getServerCertificates conn)))
 
 (defn extract-cert-info
-  [^X509Certificate cert ]
+  [^X509Certificate cert]
   {:not-after         (.getNotAfter cert)
    :not-before        (.getNotBefore cert)
    :principal         (-> cert .getIssuerX500Principal .getName)
