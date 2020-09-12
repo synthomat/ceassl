@@ -3,28 +3,31 @@ class CeasslAPI {
     this.csrf = csrf
   }
 
+  async request(url, method = 'get', options = {}) {
+    return fetch(url, {
+      method: method,
+      headers: Object.assign({
+        "X-CSRF-Token": this.csrf,
+        'Content-type': 'application/json',
+      }),
+      body: options.body ? JSON.stringify(options.body) : null
+    })
+  }
+
   async getTargets() {
-    var resp = await fetch('/api/targets')
+    var resp = await this.request('/api/targets')
     return resp.json()
   }
 
   async deleteTarget(id) {
-    var resp = await fetch('/api/targets/' + id, {
-      method: 'delete',
-      headers: {"X-CSRF-Token": this.csrf}
-    })
-
+    var resp = await this.request('/api/targets/' + id, 'delete')
     return resp.json()
   }
 
   async addTarget(target) {
-    var resp = await fetch('/api/targets', {
-      method: 'post',
-      headers: {"X-CSRF-Token": this.csrf},
-      body: JSON.stringify({host: target})
+    var resp = await this.request('/api/targets', 'post', {
+      body: {host: target}
     })
-
-    console.log(resp.status)
 
     return resp.json()
   }
@@ -35,23 +38,28 @@ const DATA_LOADING = 'DATA_LOADING'
 const ADDING_TARGET = 'ADDING_TARGET'
 const TARGET_ADDED = 'TARGET_ADDED'
 
+function patch(state, newState) {
+  return Object.assign({}, state, newState)
+}
+
 function stateReducer(state = {
   targets: [],
   loading: false,
   adding: false
 }, action) {
+
   switch (action.type) {
     case ADDING_TARGET:
-      return Object.assign({}, state, {adding: true})
+      return patch(state, {adding: true})
 
     case TARGET_ADDED:
-      return Object.assign({}, state, {adding: false})
+      return patch(state, {adding: false})
 
     case DATA_LOADING:
-      return Object.assign({}, state, {loading: true})
+      return patch(state, {loading: true})
 
     case DATA_LOADED:
-      return Object.assign({}, state, {
+      return patch(state, {
         targets: action.targets,
         loading: false
       })
@@ -62,7 +70,9 @@ function stateReducer(state = {
 }
 
 
-var store = new Store(stateReducer)
+var store = createStore(stateReducer)
+
+// we want to redraw our view whenever the store updates the state
 store.subscribe(() => m.redraw())
 
 const api = new CeasslAPI(csrfToken)
@@ -71,10 +81,7 @@ async function fetchTargets() {
   store.dispatch({type: DATA_LOADING})
 
   var resp = await api.getTargets()
-
-  setTimeout(function () {
-    store.dispatch({type: DATA_LOADED, targets: resp})
-  }, 1000)
+  store.dispatch({type: DATA_LOADED, targets: resp})
 }
 
 async function init() {
@@ -86,7 +93,7 @@ async function deleteTarget(id) {
   fetchTargets()
 }
 
-async function addTarget(target) {
+async function addTarget(target, targetInput) {
   store.dispatch({type: ADDING_TARGET})
   try {
     var resp = await api.addTarget(target)
@@ -94,7 +101,7 @@ async function addTarget(target) {
     targetInput.value = ''
     fetchTargets()
   } catch (e) {
-    store.dispatch({type: TARGET_ADDED})
+    alert(e)
   }
 }
 
@@ -102,7 +109,7 @@ async function onCreateFormSubmit() {
   var targetInput = document.getElementsByName('target-host')[0]
 
   var target = targetInput.value
-  addTarget(target)
+  addTarget(target, targetInput)
 }
 
 var AddForm = {
@@ -144,9 +151,7 @@ var Layout = {
                 m(Header),
                 vnode.children,
                 m('div.container',
-                    {class: 'text-center', style: 'margin-top: 50px'},
-                    m(m.route.Link, {href: '/settings', class: 'text-center'},
-                        'settings')))))
+                    {class: 'text-center', style: 'margin-top: 50px'}))))
   }
 }
 

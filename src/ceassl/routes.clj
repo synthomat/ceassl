@@ -8,7 +8,7 @@
 (defn create-target
   "docstring"
   [req]
-  (let [target (-> req :form-params (get "target-host"))]
+  (let [target (-> req :body :host)]
     (when (not (empty? (clojure.string/trim target)))
       (-> (db/create-target! target)
           m/check-target))
@@ -34,8 +34,8 @@
               (assoc :expires_in (days-diff (:valid_until %)))
               (assoc :level (when-let [diff (days-diff (:valid_until %))]
                               (condp >= diff
-                                40 "error"
-                                100 "warning"
+                                1 "error"
+                                14 "warning"
                                 "success"
                                 ))))
          targets)))
@@ -44,5 +44,4 @@
 (defn dashboard
   "docstring"
   [req]
-  (view/dashboard req)
-  )
+  (view/dashboard req))

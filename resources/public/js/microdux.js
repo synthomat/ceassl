@@ -19,3 +19,7 @@ class Store {
     return this.state
   }
 }
+
+function createStore(reducer) {
+  return new Store(reducer)
+}

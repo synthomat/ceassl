@@ -13,16 +13,15 @@
            (context "/api" req
              (context "/targets" []
                (GET "/" [] (response (r/list-targets req)))
+               (POST "/" [] (response (r/create-target req)))
                (DELETE "/:id" [id] (r/delete-target id))))
-           
-           (context "/targets" []
-             (POST "/create" [] r/create-target))
+
            (route/not-found "Not Found"))
 
 (def app
   (-> app-routes
       wrap-json-response
-      (wrap-json-body)
+      (wrap-json-body {:keywords? true})
       (wrap-defaults site-defaults)))
 
 (m/start-monitor)

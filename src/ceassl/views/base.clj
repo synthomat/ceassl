@@ -11,7 +11,6 @@
   [:head
    [:title "Ceassl"]
    [:link {:rel "stylesheet" :href "/css/spectre/spectre.min.css"}]
-   [:link {:rel "stylesheet" :href "/css/spectre/spectre-icons.min.css"}]
    [:link {:rel "stylesheet" :href "/css/app.css"}]
    [:script (str "var csrfToken='" *anti-forgery-token* "';")]])
 
