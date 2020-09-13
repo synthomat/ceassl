@@ -10,6 +10,7 @@
 
 (defroutes app-routes
            (GET "/" [] r/dashboard)
+
            (context "/api" req
              (context "/targets" []
                (GET "/" [] (response (r/list-targets req)))

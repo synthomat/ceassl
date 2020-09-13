@@ -1,4 +1,4 @@
-(defproject ceassl "0.2"
+(defproject ceassl "0.3"
   :description "SSL/TLS Certificate Expiration Monitoring"
   :url "https://github.com/synthomat/ceassl"
   :min-lein-version "2.0.0"
