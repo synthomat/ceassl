@@ -1,4 +1,4 @@
-# CeaSSL Changelog
+# Ceassl Changelog
 
 ##[v0.3]
 ### Changed

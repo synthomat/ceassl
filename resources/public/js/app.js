@@ -147,7 +147,7 @@ var Layout = {
   view: (vnode) => {
     return m('div.container',
         m('div.columns',
-            m('div.column.col-7.col-mx-auto',
+            m('div.column.col-8.col-mx-auto',
                 m(Header),
                 vnode.children,
                 m('div.container',
